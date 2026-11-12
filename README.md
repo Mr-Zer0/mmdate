@@ -12,13 +12,16 @@ The calculation logic is ported from
 see [`THIRD-PARTY-NOTICES.md`](THIRD-PARTY-NOTICES.md) for full attribution
 and license text.
 
-## Status: Phase 1
+## Status
 
-This release covers **Gregorian <-> Myanmar date conversion** and the
-calendar value types. Astrological days (Sabbath, Yatyaza, Mahabote, Nakhat,
-year name, ...) and the Thingyan calculation are planned for a later release.
-This crate deliberately never labels a day a "holiday" — that's policy, not
-calendrical fact, and is left to the consumer.
+This release covers **Gregorian <-> Myanmar date conversion**, the calendar
+value types, the astrological days that are a deterministic function of the
+date (Sabbath, Yatyaza, Pyathada, Thamanyo, Amyeittasote, Warameittugyi/nge,
+Yatpote, Thamaphyu, Nagapor, Yatyotema, Mahayatkyan, Shanyat, Nagahle,
+Mahabote, Nakhat, year name), and the astronomically computed Thingyan
+(Myanmar New Year) transition points. This crate deliberately never labels a
+day a "holiday" — that's policy, not calendrical fact, and is left to the
+consumer.
 
 ## Features
 
@@ -66,6 +69,25 @@ assert_eq!(myanmar.year(), 1385);
 
 See `examples/basic.rs` for a runnable version of the example above
 (`cargo run --example basic`).
+
+Astrological days and Thingyan:
+
+```rust
+use myanmar_date::{GregorianDate, Mahabote, MyanmarDate, YearName};
+
+fn main() -> Result<(), myanmar_date::Error> {
+    let gregorian = GregorianDate::new(2024, 1, 1)?;
+    let myanmar = MyanmarDate::from_gregorian(gregorian)?;
+
+    assert_eq!(myanmar.year_name(), YearName::Jyeshtha);
+    assert_eq!(myanmar.mahabote(), Mahabote::Marana);
+    assert!(myanmar.astro_days().is_empty());
+
+    let thingyan = myanmar.thingyan()?; // the Thingyan at the end of ME 1385
+    assert_eq!(thingyan.new_year_date(), GregorianDate::new(2023, 4, 17)?);
+    Ok(())
+}
+```
 
 ## Minimum Supported Rust Version (MSRV)
 
