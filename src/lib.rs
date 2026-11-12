@@ -100,6 +100,8 @@
 extern crate std;
 
 mod astro;
+#[cfg(feature = "burmese")]
+mod burmese;
 #[cfg(feature = "chrono")]
 mod chrono_compat;
 mod consts;
@@ -116,6 +118,8 @@ pub use astro::{
     AstroDay, AstroDays, AstroDaysIter, Mahabote, NagaDirection, Nakhat, Pyathada, Sabbath,
     YearName,
 };
+#[cfg(feature = "burmese")]
+pub use burmese::BurmeseDate;
 pub use error::Error;
 pub use gregorian::{GregorianDate, MAX_YEAR, MIN_YEAR};
 pub use myanmar::{Month, MonthPhase, MyanmarDate, YearType};

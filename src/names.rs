@@ -147,6 +147,23 @@ impl MonthPhase {
             Self::New => "New Moon",
         }
     }
+
+    /// The Burmese-script name of this moon phase.
+    ///
+    /// ```
+    /// use myanmar_date::MonthPhase;
+    /// assert_eq!(MonthPhase::Waxing.burmese_name(), "လဆန်း");
+    /// ```
+    #[cfg(feature = "burmese")]
+    #[must_use]
+    pub fn burmese_name(&self) -> &'static str {
+        match self {
+            Self::Waxing => "လဆန်း",
+            Self::Full => "လပြည့်",
+            Self::Waning => "လဆုတ်",
+            Self::New => "လကွယ်",
+        }
+    }
 }
 
 impl Sabbath {

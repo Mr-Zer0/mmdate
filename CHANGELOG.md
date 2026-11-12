@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added (Burmese-script date rendering)
+
+- `MyanmarDate::burmese()` renders a date as a traditional Burmese-script
+  string (e.g. `၁၃၅၃ ခု၊ နယုန်လဆန်း ၅ ရက်၊ သောကြာနေ့`) via the new
+  [`BurmeseDate`] `Display` adapter. The adapter is allocation-free and
+  `no_std`-friendly — it writes into a `core::fmt::Formatter`, so callers
+  choose whether to allocate (`to_string`/`format!`) or stream
+  (`write!`/`println!`). Behind the `burmese` feature.
+- `MonthPhase::burmese_name()` under the `burmese` feature (purely additive).
+
 ### Added (Phase 2: astrological days and Thingyan)
 
 - `MyanmarDate` getters for every astrological day/property that is a

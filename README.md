@@ -89,6 +89,44 @@ fn main() -> Result<(), myanmar_date::Error> {
 }
 ```
 
+### Burmese-script output
+
+With the `burmese` feature enabled, `MyanmarDate::burmese()` renders a date in
+the traditional Burmese script. It returns an allocation-free
+[`Display`](https://doc.rust-lang.org/core/fmt/trait.Display.html) adapter, so
+it works in `no_std` and only allocates if you ask it to (`to_string`,
+`format!`):
+
+```toml
+[dependencies]
+myanmar-date = { version = "0.1", features = ["burmese"] }
+```
+
+```rust
+use myanmar_date::{GregorianDate, MyanmarDate};
+
+fn main() -> Result<(), myanmar_date::Error> {
+    // Input: a Gregorian date.
+    let gregorian = GregorianDate::new(1991, 5, 17)?;
+
+    // Output: the Myanmar date in traditional Burmese script.
+    let myanmar = MyanmarDate::from_gregorian(gregorian)?;
+    assert_eq!(
+        myanmar.burmese().to_string(),
+        "၁၃၅၃ ခု၊ နယုန်လဆန်း ၅ ရက်၊ သောကြာနေ့",
+    );
+
+    // You can also stream it without allocating, e.g.:
+    //   println!("{}", myanmar.burmese());
+    Ok(())
+}
+```
+
+The rendered string is year (`၁၃၅၃ ခု`), month and moon phase
+(`နယုန်လဆန်း`), fortnight day (`၅ ရက်`, shown for waxing and waning days), and
+weekday (`သောကြာနေ့`). Full-moon and new-moon days omit the day number, since
+the phase word already identifies the day.
+
 ## Minimum Supported Rust Version (MSRV)
 
 Rust 1.85 (edition 2024).
