@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.1] - 2026-11-12
+
+### Added
+
+- `burmese_name()` on the remaining enums, behind the `burmese` feature:
+  `Sabbath`, `Pyathada`, `NagaDirection`, `Mahabote`, `Nakhat`, `AstroDay`,
+  and `YearType`. All terms are taken from mmcal's `ceMmTranslate` catalog
+  (Myanmar-Unicode column) except `YearType`, for which the catalog has no
+  entry — those three use the standard Burmese calendar vocabulary
+  (`သာမန်နှစ်` / `ဝါငယ်ထပ်နှစ်` / `ဝါကြီးထပ်နှစ်`), as noted on the method.
+  Every enum with a human-readable name now has a `burmese_name()` to match
+  its `english_name()`.
+
 ## [0.1.0] - 2026-11-12
 
 ### Documentation
