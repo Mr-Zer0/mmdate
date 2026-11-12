@@ -50,6 +50,25 @@ const { ceDateTime, ceMmDateTime } = loadUpstream(srcPath);
 const SG = 2361222;
 const CT_GREGORIAN = 1;
 
+// Thingyan astronomical constants, ported directly from the calculation
+// embedded in `cal_holiday` (`ceMmDateTime.js:1352-1366`) — there is no
+// standalone static method for it upstream, so this is inlined here exactly
+// as upstream computes it (not re-derived).
+const THINGYAN_SY = 1577917828.0 / 4320000.0;
+const THINGYAN_MO = 1954168.050623;
+const THINGYAN_BGNTG = 1100;
+const THINGYAN_SE3 = 1312;
+
+function thingyanFor(my, mmt) {
+  const myEff = my + mmt;
+  if (myEff < THINGYAN_BGNTG) return null;
+  const ja = THINGYAN_SY * myEff + THINGYAN_MO; // atat time
+  const jk = my >= THINGYAN_SE3 ? ja - 2.169918982 : ja - 2.1675; // akya time
+  const akn = Math.round(jk);
+  const atn = Math.round(ja);
+  return { akn, atn, newyear: atn + 1, ja, jk };
+}
+
 function rowFor(y, m, d) {
   const jd = ceDateTime.w2j(y, m, d, 12, 0, 0, CT_GREGORIAN, SG);
   const jdn = Math.round(jd);
@@ -58,7 +77,41 @@ function rowFor(y, m, d) {
   const mp = ceMmDateTime.cal_mp(mdt.md, mdt.mm, mdt.myt);
   const mf = ceMmDateTime.cal_mf(mdt.md);
   const sy = ceMmDateTime.my2sy(mdt.my, mdt.mm, mdt.md, 0);
-  return [y, m, d, jdn, mdt.my, mdt.mm, mdt.md, mdt.myt, mp, mf, wd, sy].join(',');
+
+  const yearName = mdt.my % 12;
+  const nagahle = ceMmDateTime.cal_nagahle(mdt.mm);
+  const mahabote = ceMmDateTime.cal_mahabote(mdt.my, wd);
+  const nakhat = ceMmDateTime.cal_nakhat(mdt.my);
+  const sabbath = ceMmDateTime.cal_sabbath(mdt.md, mdt.mm, mdt.myt);
+  const yatyaza = ceMmDateTime.cal_yatyaza(mdt.mm, wd);
+  const pyathada = ceMmDateTime.cal_pyathada(mdt.mm, wd);
+  const thamanyo = ceMmDateTime.cal_thamanyo(mdt.mm, wd);
+  const amyeittasote = ceMmDateTime.cal_amyeittasote(mdt.md, wd);
+  const warameittugyi = ceMmDateTime.cal_warameittugyi(mdt.md, wd);
+  const warameittunge = ceMmDateTime.cal_warameittunge(mdt.md, wd);
+  const yatpote = ceMmDateTime.cal_yatpote(mdt.md, wd);
+  const thamaphyu = ceMmDateTime.cal_thamaphyu(mdt.md, wd);
+  const nagapor = ceMmDateTime.cal_nagapor(mdt.md, wd);
+  const yatyotema = ceMmDateTime.cal_yatyotema(mdt.mm, mdt.md);
+  const mahayatkyan = ceMmDateTime.cal_mahayatkyan(mdt.mm, mdt.md);
+  const shanyat = ceMmDateTime.cal_shanyat(mdt.mm, mdt.md);
+
+  const mmt = Math.floor(mdt.mm / 13);
+  const thingyan = thingyanFor(mdt.my, mmt);
+  const thingyanValid = thingyan ? 1 : 0;
+  const akyaJdn = thingyan ? thingyan.akn : '';
+  const atatJdn = thingyan ? thingyan.atn : '';
+  const newYearJdn = thingyan ? thingyan.newyear : '';
+  const akyaTime = thingyan ? thingyan.jk : '';
+  const atatTime = thingyan ? thingyan.ja : '';
+
+  return [
+    y, m, d, jdn, mdt.my, mdt.mm, mdt.md, mdt.myt, mp, mf, wd, sy,
+    yearName, nagahle, mahabote, nakhat, sabbath, yatyaza, pyathada,
+    thamanyo, amyeittasote, warameittugyi, warameittunge, yatpote,
+    thamaphyu, nagapor, yatyotema, mahayatkyan, shanyat,
+    thingyanValid, akyaJdn, atatJdn, newYearJdn, akyaTime, atatTime,
+  ].join(',');
 }
 
 function* daysInGregorianRange(y1, y2) {
@@ -110,8 +163,15 @@ for (const my of [...new Set([...wteYears, ...fmeYears])]) {
 
 const sorted = [...rows.values()].sort((a, b) => Number(a.split(',')[3]) - Number(b.split(',')[3]));
 
-const header =
-  'gregorian_year,gregorian_month,gregorian_day,jdn,myanmar_year,myanmar_month,myanmar_day,year_type,moon_phase,fortnight_day,weekday,sasana_year';
+const header = [
+  'gregorian_year', 'gregorian_month', 'gregorian_day', 'jdn', 'myanmar_year',
+  'myanmar_month', 'myanmar_day', 'year_type', 'moon_phase', 'fortnight_day',
+  'weekday', 'sasana_year',
+  'year_name', 'nagahle', 'mahabote', 'nakhat', 'sabbath', 'yatyaza', 'pyathada',
+  'thamanyo', 'amyeittasote', 'warameittugyi', 'warameittunge', 'yatpote',
+  'thamaphyu', 'nagapor', 'yatyotema', 'mahayatkyan', 'shanyat',
+  'thingyan_valid', 'akya_jdn', 'atat_jdn', 'new_year_jdn', 'akya_time', 'atat_time',
+].join(',');
 const outPath = path.join(__dirname, '..', 'tests', 'fixtures', 'golden_vectors.csv');
 fs.writeFileSync(outPath, header + '\n' + sorted.join('\n') + '\n');
 
