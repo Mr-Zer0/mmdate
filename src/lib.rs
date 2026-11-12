@@ -6,15 +6,20 @@
 //! dates, ported from [yan9a/mmcal](https://github.com/yan9a/mmcal) (MIT,
 //! © 2018 Yan Naing Aye).
 //!
-//! # Scope (Phase 1)
+//! # Scope
 //!
-//! This release covers Gregorian <-> Myanmar date conversion and the date
-//! value types ([`GregorianDate`], [`MyanmarDate`], [`Month`], [`YearType`],
-//! [`MonthPhase`], [`Weekday`]). Astrological days (Sabbath, Yatyaza,
-//! Mahabote, ...) and the Thingyan calculation are planned for a later
-//! release and are not part of this crate yet. This crate also never labels
-//! a day a "holiday" — that is policy, not calendrical fact, and is left to
-//! the consumer.
+//! This crate covers Gregorian <-> Myanmar date conversion and the date value
+//! types ([`GregorianDate`], [`MyanmarDate`], [`Month`], [`YearType`],
+//! [`MonthPhase`], [`Weekday`]), plus the astrological days and year
+//! properties that are a deterministic function of the date: sabbath/
+//! sabbath-eve, yatyaza, pyathada, the ten `cal_astro` days ([`AstroDay`]),
+//! the naga's direction ([`NagaDirection`]), mahabote ([`Mahabote`]), nakhat
+//! ([`Nakhat`]), the traditional year name ([`YearName`]), and the
+//! astronomically computed Thingyan transition points ([`Thingyan`]). This
+//! crate never labels a day a "holiday" — which days are public, government,
+//! or religious holidays is policy, not calendrical fact, and is left to the
+//! consumer (see [`MyanmarDate::astro_days`] and [`Thingyan`] for the
+//! calendrical facts themselves).
 //!
 //! # Supported range
 //!
@@ -55,6 +60,23 @@
 //! # fn main() {}
 //! ```
 //!
+//! # Astrological days and Thingyan
+//!
+//! ```
+//! use myanmar_date::{GregorianDate, Mahabote, MyanmarDate, YearName};
+//!
+//! let g = GregorianDate::new(2024, 1, 1)?;
+//! let m = MyanmarDate::from_gregorian(g)?;
+//!
+//! assert_eq!(m.year_name(), YearName::Jyeshtha);
+//! assert_eq!(m.mahabote(), Mahabote::Marana);
+//! assert!(m.astro_days().is_empty()); // no cal_astro days on this date
+//!
+//! let t = m.thingyan()?; // the Thingyan at the end of ME 1385
+//! assert_eq!(t.new_year_date(), GregorianDate::new(2023, 4, 17)?);
+//! # Ok::<(), myanmar_date::Error>(())
+//! ```
+//!
 //! # Memory and dependencies
 //!
 //! The core is `#![no_std]` with **zero required dependencies**; every
@@ -77,6 +99,7 @@
 #[cfg(test)]
 extern crate std;
 
+mod astro;
 #[cfg(feature = "chrono")]
 mod chrono_compat;
 mod consts;
@@ -86,9 +109,15 @@ mod julian;
 mod math;
 mod myanmar;
 mod names;
+mod thingyan;
 mod weekday;
 
+pub use astro::{
+    AstroDay, AstroDays, AstroDaysIter, Mahabote, NagaDirection, Nakhat, Pyathada, Sabbath,
+    YearName,
+};
 pub use error::Error;
 pub use gregorian::{GregorianDate, MAX_YEAR, MIN_YEAR};
 pub use myanmar::{Month, MonthPhase, MyanmarDate, YearType};
+pub use thingyan::{Thingyan, ThingyanPhase};
 pub use weekday::Weekday;

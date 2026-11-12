@@ -10,7 +10,7 @@ documentation = "https://docs.rs/myanmar-date"
 readme = "README.md"
 keywords = ["myanmar", "burmese", "calendar", "date", "lunisolar"]
 categories = ["date-and-time", "no-std", "internationalization"]
-exclude = ["util/", ".claude/", "Claude.md"]
+exclude = ["util/", ".claude/", "Claude.md", "tests/fixtures/"]
 
 [dependencies]
 chrono = { version = "0.4", default-features = false, optional = true }

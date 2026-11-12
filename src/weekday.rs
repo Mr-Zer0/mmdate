@@ -31,6 +31,21 @@ pub enum Weekday {
 }
 
 impl Weekday {
+    /// This weekday's mmcal numeric code (`0..=6`, `[0=Sat, ..., 6=Fri]`),
+    /// used internally to feed the astrological-day formulas in
+    /// [`crate::astro`], which are keyed to upstream's own weekday numbering.
+    pub(crate) fn code(self) -> i32 {
+        match self {
+            Self::Sat => 0,
+            Self::Sun => 1,
+            Self::Mon => 2,
+            Self::Tue => 3,
+            Self::Wed => 4,
+            Self::Thu => 5,
+            Self::Fri => 6,
+        }
+    }
+
     /// Computes the weekday for a Julian Day Number, using mmcal's
     /// `w = (jdn + 2) % 7` formula.
     ///

@@ -10,7 +10,10 @@
 //! section. Callers never get owned `String`s from this module, so there is
 //! no allocation and nothing to free.
 
-use crate::{Month, MonthPhase, Weekday, YearType};
+use crate::{
+    AstroDay, Mahabote, Month, MonthPhase, NagaDirection, Nakhat, Pyathada, Sabbath, Weekday,
+    YearName, YearType,
+};
 
 impl Weekday {
     /// The English name of this weekday.
@@ -146,6 +149,172 @@ impl MonthPhase {
     }
 }
 
+impl Sabbath {
+    /// The English name of this sabbath state.
+    ///
+    /// ```
+    /// use myanmar_date::Sabbath;
+    /// assert_eq!(Sabbath::Sabbath.english_name(), "Sabbath");
+    /// assert_eq!(Sabbath::SabbathEve.english_name(), "Sabbath Eve");
+    /// ```
+    #[must_use]
+    pub fn english_name(&self) -> &'static str {
+        match self {
+            Self::Sabbath => "Sabbath",
+            Self::SabbathEve => "Sabbath Eve",
+        }
+    }
+}
+
+impl Pyathada {
+    /// The English name of this pyathada state.
+    ///
+    /// ```
+    /// use myanmar_date::Pyathada;
+    /// assert_eq!(Pyathada::Pyathada.english_name(), "Pyathada");
+    /// assert_eq!(Pyathada::Afternoon.english_name(), "Afternoon Pyathada");
+    /// ```
+    #[must_use]
+    pub fn english_name(&self) -> &'static str {
+        match self {
+            Self::Pyathada => "Pyathada",
+            Self::Afternoon => "Afternoon Pyathada",
+        }
+    }
+}
+
+impl NagaDirection {
+    /// The English name of this direction.
+    ///
+    /// ```
+    /// use myanmar_date::NagaDirection;
+    /// assert_eq!(NagaDirection::South.english_name(), "South");
+    /// ```
+    #[must_use]
+    pub fn english_name(&self) -> &'static str {
+        match self {
+            Self::West => "West",
+            Self::North => "North",
+            Self::East => "East",
+            Self::South => "South",
+        }
+    }
+}
+
+impl Mahabote {
+    /// The English name of this mahabote category.
+    ///
+    /// ```
+    /// use myanmar_date::Mahabote;
+    /// assert_eq!(Mahabote::Marana.english_name(), "Marana");
+    /// ```
+    #[must_use]
+    pub fn english_name(&self) -> &'static str {
+        match self {
+            Self::Binga => "Binga",
+            Self::Atun => "Atun",
+            Self::Yaza => "Yaza",
+            Self::Adipati => "Adipati",
+            Self::Marana => "Marana",
+            Self::Thike => "Thike",
+            Self::Puti => "Puti",
+        }
+    }
+}
+
+impl Nakhat {
+    /// The English name of this nakhat category.
+    ///
+    /// ```
+    /// use myanmar_date::Nakhat;
+    /// assert_eq!(Nakhat::Human.english_name(), "Human");
+    /// ```
+    #[must_use]
+    pub fn english_name(&self) -> &'static str {
+        match self {
+            Self::Ogre => "Ogre",
+            Self::Elf => "Elf",
+            Self::Human => "Human",
+        }
+    }
+}
+
+impl YearName {
+    /// The English (Sanskrit-derived) name of this year name.
+    ///
+    /// ```
+    /// use myanmar_date::YearName;
+    /// assert_eq!(YearName::Jyeshtha.english_name(), "Jyeshtha");
+    /// ```
+    #[must_use]
+    pub fn english_name(&self) -> &'static str {
+        match self {
+            Self::Hpusha => "Hpusha",
+            Self::Magha => "Magha",
+            Self::Phalguni => "Phalguni",
+            Self::Chitra => "Chitra",
+            Self::Visakha => "Visakha",
+            Self::Jyeshtha => "Jyeshtha",
+            Self::Ashadha => "Ashadha",
+            Self::Sravana => "Sravana",
+            Self::Bhadrapaha => "Bhadrapaha",
+            Self::Asvini => "Asvini",
+            Self::Krittika => "Krittika",
+            Self::Mrigasiras => "Mrigasiras",
+        }
+    }
+
+    /// The Burmese-script name of this year name.
+    ///
+    /// ```
+    /// use myanmar_date::YearName;
+    /// assert_eq!(YearName::Jyeshtha.burmese_name(), "စိဿနှစ်");
+    /// ```
+    #[cfg(feature = "burmese")]
+    #[must_use]
+    pub fn burmese_name(&self) -> &'static str {
+        match self {
+            Self::Hpusha => "ပုဿနှစ်",
+            Self::Magha => "မာခနှစ်",
+            Self::Phalguni => "ဖ္လကိုန်နှစ်",
+            Self::Chitra => "စယ်နှစ်",
+            Self::Visakha => "ပိသျက်နှစ်",
+            Self::Jyeshtha => "စိဿနှစ်",
+            Self::Ashadha => "အာသတ်နှစ်",
+            Self::Sravana => "သရဝန်နှစ်",
+            Self::Bhadrapaha => "ဘဒြနှစ်",
+            Self::Asvini => "အာသိန်နှစ်",
+            Self::Krittika => "ကြတိုက်နှစ်",
+            Self::Mrigasiras => "မြိက္ကသိုဝ်နှစ်",
+        }
+    }
+}
+
+impl AstroDay {
+    /// The English name of this astrological day, matching upstream
+    /// `cal_astro`'s own strings.
+    ///
+    /// ```
+    /// use myanmar_date::AstroDay;
+    /// assert_eq!(AstroDay::Thamanyo.english_name(), "Thamanyo");
+    /// ```
+    #[must_use]
+    pub fn english_name(&self) -> &'static str {
+        match self {
+            Self::Thamanyo => "Thamanyo",
+            Self::Amyeittasote => "Amyeittasote",
+            Self::Warameittugyi => "Warameittugyi",
+            Self::Warameittunge => "Warameittunge",
+            Self::Yatpote => "Yatpote",
+            Self::Thamaphyu => "Thamaphyu",
+            Self::Nagapor => "Nagapor",
+            Self::Yatyotema => "Yatyotema",
+            Self::Mahayatkyan => "Mahayatkyan",
+            Self::Shanyat => "Shanyat",
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -217,5 +386,116 @@ mod tests {
         // behavior.
         assert_eq!(Month::Tagu.english_name(), "Tagu");
         assert_eq!(Weekday::Mon.english_name(), "Monday");
+    }
+
+    #[test]
+    fn every_year_name_has_a_distinct_english_name() {
+        let names: std::vec::Vec<&str> = [
+            YearName::Hpusha,
+            YearName::Magha,
+            YearName::Phalguni,
+            YearName::Chitra,
+            YearName::Visakha,
+            YearName::Jyeshtha,
+            YearName::Ashadha,
+            YearName::Sravana,
+            YearName::Bhadrapaha,
+            YearName::Asvini,
+            YearName::Krittika,
+            YearName::Mrigasiras,
+        ]
+        .iter()
+        .map(YearName::english_name)
+        .collect();
+        let mut unique = names.clone();
+        unique.sort_unstable();
+        unique.dedup();
+        assert_eq!(unique.len(), names.len());
+    }
+
+    #[test]
+    fn every_astro_day_has_a_distinct_english_name() {
+        let names: std::vec::Vec<&str> = [
+            AstroDay::Thamanyo,
+            AstroDay::Amyeittasote,
+            AstroDay::Warameittugyi,
+            AstroDay::Warameittunge,
+            AstroDay::Yatpote,
+            AstroDay::Thamaphyu,
+            AstroDay::Nagapor,
+            AstroDay::Yatyotema,
+            AstroDay::Mahayatkyan,
+            AstroDay::Shanyat,
+        ]
+        .iter()
+        .map(AstroDay::english_name)
+        .collect();
+        let mut unique = names.clone();
+        unique.sort_unstable();
+        unique.dedup();
+        assert_eq!(unique.len(), names.len());
+    }
+
+    #[test]
+    fn mahabote_nakhat_sabbath_pyathada_naga_direction_names_are_non_empty() {
+        for m in [
+            Mahabote::Binga,
+            Mahabote::Atun,
+            Mahabote::Yaza,
+            Mahabote::Adipati,
+            Mahabote::Marana,
+            Mahabote::Thike,
+            Mahabote::Puti,
+        ] {
+            assert_ne!(m.english_name(), "");
+        }
+        for n in [Nakhat::Ogre, Nakhat::Elf, Nakhat::Human] {
+            assert_ne!(n.english_name(), "");
+        }
+        assert_ne!(
+            Sabbath::Sabbath.english_name(),
+            Sabbath::SabbathEve.english_name()
+        );
+        assert_ne!(
+            Pyathada::Pyathada.english_name(),
+            Pyathada::Afternoon.english_name()
+        );
+        for d in [
+            NagaDirection::West,
+            NagaDirection::North,
+            NagaDirection::East,
+            NagaDirection::South,
+        ] {
+            assert_ne!(d.english_name(), "");
+        }
+    }
+
+    #[cfg(feature = "burmese")]
+    #[test]
+    fn year_name_burmese_names_are_non_empty_and_distinct() {
+        let names: std::vec::Vec<&str> = [
+            YearName::Hpusha,
+            YearName::Magha,
+            YearName::Phalguni,
+            YearName::Chitra,
+            YearName::Visakha,
+            YearName::Jyeshtha,
+            YearName::Ashadha,
+            YearName::Sravana,
+            YearName::Bhadrapaha,
+            YearName::Asvini,
+            YearName::Krittika,
+            YearName::Mrigasiras,
+        ]
+        .iter()
+        .map(YearName::burmese_name)
+        .collect();
+        for n in &names {
+            assert_ne!(*n, "");
+        }
+        let mut unique = names.clone();
+        unique.sort_unstable();
+        unique.dedup();
+        assert_eq!(unique.len(), names.len());
     }
 }
