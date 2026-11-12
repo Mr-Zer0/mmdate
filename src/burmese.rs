@@ -42,6 +42,7 @@ fn write_burmese_number(f: &mut fmt::Formatter<'_>, n: u64) -> fmt::Result {
 /// day (for waxing/waning phases only), and weekday. Full-moon and new-moon
 /// days carry no day number, since the phase word already identifies the day.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[cfg_attr(docsrs, doc(cfg(feature = "burmese")))]
 pub struct BurmeseDate(MyanmarDate);
 
 impl BurmeseDate {
@@ -91,6 +92,7 @@ impl MyanmarDate {
     ///     "၁၃၅၃ ခု၊ နယုန်လဆန်း ၅ ရက်၊ သောကြာနေ့",
     /// );
     /// ```
+    #[cfg_attr(docsrs, doc(cfg(feature = "burmese")))]
     #[must_use]
     pub fn burmese(&self) -> BurmeseDate {
         BurmeseDate::new(*self)

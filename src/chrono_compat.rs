@@ -9,6 +9,7 @@ use chrono::Datelike;
 
 use crate::{Error, GregorianDate, MyanmarDate};
 
+#[cfg_attr(docsrs, doc(cfg(feature = "chrono")))]
 impl From<GregorianDate> for chrono::NaiveDate {
     /// Converts to `chrono::NaiveDate`.
     ///
@@ -36,6 +37,7 @@ impl From<GregorianDate> for chrono::NaiveDate {
     }
 }
 
+#[cfg_attr(docsrs, doc(cfg(feature = "chrono")))]
 impl TryFrom<chrono::NaiveDate> for GregorianDate {
     type Error = Error;
 
@@ -66,6 +68,7 @@ impl TryFrom<chrono::NaiveDate> for GregorianDate {
     }
 }
 
+#[cfg_attr(docsrs, doc(cfg(feature = "chrono")))]
 impl TryFrom<chrono::NaiveDate> for MyanmarDate {
     type Error = Error;
 
@@ -90,6 +93,7 @@ impl TryFrom<chrono::NaiveDate> for MyanmarDate {
     }
 }
 
+#[cfg_attr(docsrs, doc(cfg(feature = "chrono")))]
 impl From<MyanmarDate> for chrono::NaiveDate {
     /// Converts a Myanmar date to `chrono::NaiveDate` via its Gregorian
     /// equivalent.

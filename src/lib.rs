@@ -1,4 +1,5 @@
 #![no_std]
+#![cfg_attr(docsrs, feature(doc_cfg))]
 #![forbid(unsafe_code)]
 #![deny(missing_docs, unsafe_op_in_unsafe_fn)]
 #![warn(clippy::all, clippy::pedantic, rust_2018_idioms, unreachable_pub)]

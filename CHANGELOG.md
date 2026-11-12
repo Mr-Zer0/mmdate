@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Documentation
+
+- Feature-gated API now renders "Available on crate feature ..." badges on
+  [docs.rs](https://docs.rs) via `doc_cfg` (nightly-only, enabled behind the
+  `docsrs` cfg so stable builds are unaffected). Covers the `burmese` and
+  `chrono` feature items.
+
 ### Added (Burmese-script date rendering)
 
 - `MyanmarDate::burmese()` renders a date as a traditional Burmese-script

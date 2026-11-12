@@ -42,6 +42,7 @@ impl Weekday {
     /// assert_eq!(Weekday::Sat.burmese_name(), "စနေ");
     /// ```
     #[cfg(feature = "burmese")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "burmese")))]
     #[must_use]
     pub fn burmese_name(&self) -> &'static str {
         match self {
@@ -92,6 +93,7 @@ impl Month {
     /// assert_eq!(Month::Tagu.burmese_name(), "တန်ခူး");
     /// ```
     #[cfg(feature = "burmese")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "burmese")))]
     #[must_use]
     pub fn burmese_name(&self) -> &'static str {
         match self {
@@ -155,6 +157,7 @@ impl MonthPhase {
     /// assert_eq!(MonthPhase::Waxing.burmese_name(), "လဆန်း");
     /// ```
     #[cfg(feature = "burmese")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "burmese")))]
     #[must_use]
     pub fn burmese_name(&self) -> &'static str {
         match self {
@@ -288,6 +291,7 @@ impl YearName {
     /// assert_eq!(YearName::Jyeshtha.burmese_name(), "စိဿနှစ်");
     /// ```
     #[cfg(feature = "burmese")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "burmese")))]
     #[must_use]
     pub fn burmese_name(&self) -> &'static str {
         match self {
