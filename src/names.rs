@@ -131,6 +131,27 @@ impl YearType {
             Self::BigWatat => "Big Watat",
         }
     }
+
+    /// The Burmese-script name of this year type.
+    ///
+    /// Note: unlike the other `burmese_name()` methods, these terms are the
+    /// standard Burmese calendar vocabulary rather than entries from mmcal's
+    /// `ceMmTranslate` catalog (which has no year-type terms).
+    ///
+    /// ```
+    /// use myanmar_date::YearType;
+    /// assert_eq!(YearType::Common.burmese_name(), "သာမန်နှစ်");
+    /// ```
+    #[cfg(feature = "burmese")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "burmese")))]
+    #[must_use]
+    pub fn burmese_name(&self) -> &'static str {
+        match self {
+            Self::Common => "သာမန်နှစ်",
+            Self::LittleWatat => "ဝါငယ်ထပ်နှစ်",
+            Self::BigWatat => "ဝါကြီးထပ်နှစ်",
+        }
+    }
 }
 
 impl MonthPhase {
@@ -184,6 +205,23 @@ impl Sabbath {
             Self::SabbathEve => "Sabbath Eve",
         }
     }
+
+    /// The Burmese-script name of this sabbath state.
+    ///
+    /// ```
+    /// use myanmar_date::Sabbath;
+    /// assert_eq!(Sabbath::Sabbath.burmese_name(), "ဥပုသ်");
+    /// assert_eq!(Sabbath::SabbathEve.burmese_name(), "အဖိတ်");
+    /// ```
+    #[cfg(feature = "burmese")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "burmese")))]
+    #[must_use]
+    pub fn burmese_name(&self) -> &'static str {
+        match self {
+            Self::Sabbath => "ဥပုသ်",
+            Self::SabbathEve => "အဖိတ်",
+        }
+    }
 }
 
 impl Pyathada {
@@ -199,6 +237,25 @@ impl Pyathada {
         match self {
             Self::Pyathada => "Pyathada",
             Self::Afternoon => "Afternoon Pyathada",
+        }
+    }
+
+    /// The Burmese-script name of this pyathada state.
+    ///
+    /// The afternoon variant composes mmcal's `Afternoon` (`မွန်းလွဲ`) and
+    /// `Pyathada` (`ပြဿဒါး`) catalog terms.
+    ///
+    /// ```
+    /// use myanmar_date::Pyathada;
+    /// assert_eq!(Pyathada::Pyathada.burmese_name(), "ပြဿဒါး");
+    /// ```
+    #[cfg(feature = "burmese")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "burmese")))]
+    #[must_use]
+    pub fn burmese_name(&self) -> &'static str {
+        match self {
+            Self::Pyathada => "ပြဿဒါး",
+            Self::Afternoon => "မွန်းလွဲ ပြဿဒါး",
         }
     }
 }
@@ -217,6 +274,24 @@ impl NagaDirection {
             Self::North => "North",
             Self::East => "East",
             Self::South => "South",
+        }
+    }
+
+    /// The Burmese-script name of this direction.
+    ///
+    /// ```
+    /// use myanmar_date::NagaDirection;
+    /// assert_eq!(NagaDirection::South.burmese_name(), "တောင်");
+    /// ```
+    #[cfg(feature = "burmese")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "burmese")))]
+    #[must_use]
+    pub fn burmese_name(&self) -> &'static str {
+        match self {
+            Self::West => "အနောက်",
+            Self::North => "မြောက်",
+            Self::East => "အရှေ့",
+            Self::South => "တောင်",
         }
     }
 }
@@ -240,6 +315,27 @@ impl Mahabote {
             Self::Puti => "Puti",
         }
     }
+
+    /// The Burmese-script name of this mahabote category.
+    ///
+    /// ```
+    /// use myanmar_date::Mahabote;
+    /// assert_eq!(Mahabote::Marana.burmese_name(), "မရဏ");
+    /// ```
+    #[cfg(feature = "burmese")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "burmese")))]
+    #[must_use]
+    pub fn burmese_name(&self) -> &'static str {
+        match self {
+            Self::Binga => "ဘင်္ဂ",
+            Self::Atun => "အထွန်း",
+            Self::Yaza => "ရာဇ",
+            Self::Adipati => "အဓိပတိ",
+            Self::Marana => "မရဏ",
+            Self::Thike => "သိုက်",
+            Self::Puti => "ပုတိ",
+        }
+    }
 }
 
 impl Nakhat {
@@ -255,6 +351,23 @@ impl Nakhat {
             Self::Ogre => "Ogre",
             Self::Elf => "Elf",
             Self::Human => "Human",
+        }
+    }
+
+    /// The Burmese-script name of this nakhat category.
+    ///
+    /// ```
+    /// use myanmar_date::Nakhat;
+    /// assert_eq!(Nakhat::Human.burmese_name(), "လူ");
+    /// ```
+    #[cfg(feature = "burmese")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "burmese")))]
+    #[must_use]
+    pub fn burmese_name(&self) -> &'static str {
+        match self {
+            Self::Ogre => "ဘီလူး",
+            Self::Elf => "နတ်",
+            Self::Human => "လူ",
         }
     }
 }
@@ -332,6 +445,30 @@ impl AstroDay {
             Self::Yatyotema => "Yatyotema",
             Self::Mahayatkyan => "Mahayatkyan",
             Self::Shanyat => "Shanyat",
+        }
+    }
+
+    /// The Burmese-script name of this astrological day.
+    ///
+    /// ```
+    /// use myanmar_date::AstroDay;
+    /// assert_eq!(AstroDay::Thamanyo.burmese_name(), "သမားညို");
+    /// ```
+    #[cfg(feature = "burmese")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "burmese")))]
+    #[must_use]
+    pub fn burmese_name(&self) -> &'static str {
+        match self {
+            Self::Thamanyo => "သမားညို",
+            Self::Amyeittasote => "အမြိတ္တစုတ်",
+            Self::Warameittugyi => "ဝါရမိတ္တုကြီး",
+            Self::Warameittunge => "ဝါရမိတ္တုငယ်",
+            Self::Yatpote => "ရက်ပုပ်",
+            Self::Thamaphyu => "သမားဖြူ",
+            Self::Nagapor => "နဂါးပေါ်",
+            Self::Yatyotema => "ရက်ယုတ်မာ",
+            Self::Mahayatkyan => "မဟာရက်ကြမ်း",
+            Self::Shanyat => "ရှမ်းရက်",
         }
     }
 }
@@ -518,5 +655,65 @@ mod tests {
         unique.sort_unstable();
         unique.dedup();
         assert_eq!(unique.len(), names.len());
+    }
+
+    #[cfg(feature = "burmese")]
+    #[test]
+    fn remaining_enums_have_distinct_non_empty_burmese_names() {
+        fn all_distinct_non_empty(names: &[&str]) {
+            for n in names {
+                assert_ne!(*n, "");
+            }
+            let mut u = names.to_vec();
+            u.sort_unstable();
+            u.dedup();
+            assert_eq!(u.len(), names.len());
+        }
+
+        all_distinct_non_empty(&[
+            YearType::Common.burmese_name(),
+            YearType::LittleWatat.burmese_name(),
+            YearType::BigWatat.burmese_name(),
+        ]);
+        all_distinct_non_empty(&[
+            Sabbath::Sabbath.burmese_name(),
+            Sabbath::SabbathEve.burmese_name(),
+        ]);
+        all_distinct_non_empty(&[
+            Pyathada::Pyathada.burmese_name(),
+            Pyathada::Afternoon.burmese_name(),
+        ]);
+        all_distinct_non_empty(&[
+            NagaDirection::West.burmese_name(),
+            NagaDirection::North.burmese_name(),
+            NagaDirection::East.burmese_name(),
+            NagaDirection::South.burmese_name(),
+        ]);
+        all_distinct_non_empty(&[
+            Mahabote::Binga.burmese_name(),
+            Mahabote::Atun.burmese_name(),
+            Mahabote::Yaza.burmese_name(),
+            Mahabote::Adipati.burmese_name(),
+            Mahabote::Marana.burmese_name(),
+            Mahabote::Thike.burmese_name(),
+            Mahabote::Puti.burmese_name(),
+        ]);
+        all_distinct_non_empty(&[
+            Nakhat::Ogre.burmese_name(),
+            Nakhat::Elf.burmese_name(),
+            Nakhat::Human.burmese_name(),
+        ]);
+        all_distinct_non_empty(&[
+            AstroDay::Thamanyo.burmese_name(),
+            AstroDay::Amyeittasote.burmese_name(),
+            AstroDay::Warameittugyi.burmese_name(),
+            AstroDay::Warameittunge.burmese_name(),
+            AstroDay::Yatpote.burmese_name(),
+            AstroDay::Thamaphyu.burmese_name(),
+            AstroDay::Nagapor.burmese_name(),
+            AstroDay::Yatyotema.burmese_name(),
+            AstroDay::Mahayatkyan.burmese_name(),
+            AstroDay::Shanyat.burmese_name(),
+        ]);
     }
 }
